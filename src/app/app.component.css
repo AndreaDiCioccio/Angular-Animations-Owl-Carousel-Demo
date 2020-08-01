@@ -1,0 +1,94 @@
+/* @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+*{
+	font-family: 'Poppins';
+}
+ */
+.carousel{
+    position: relative;
+    min-height: 160px;
+}
+
+.item-carousel{
+    position: absolute;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    z-index: -1;
+    font-size: 150px;
+    color: white;
+}
+
+#item-carousel-1{
+    background-color: antiquewhite;
+}
+
+#item-carousel-2{
+    background-color: aquamarine;
+}
+
+#item-carousel-3{
+    background-color: blue;
+}
+
+#item-carousel-4{
+    background-color: brown;
+}
+
+#item-carousel-5{
+    background-color: chocolate;
+}
+
+#item-carousel-6{
+    background-color: coral;
+}
+
+#item-carousel-7{
+    background-color: cornflowerblue;
+}
+
+#item-carousel-8{
+    background-color: crimson;
+}
+
+#item-carousel-9{
+    background-color: darkcyan;
+}
+
+#item-carousel-10{
+    background-color: darksalmon;
+}
+
+.carousel-support{
+    width: 100%;
+    position: relative;
+}
+
+#button-slide-previous{
+    left: 15px;
+}
+
+#button-slide-next{
+    right: 15px;
+}
+
+.button-slide{
+    top: -60px;
+    position: absolute;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+    width: 0;
+    height: 0;
+    opacity: 0;
+    z-index: 0;
+    visibility: hidden;
+}
+
+.button-slide:hover{
+    cursor:pointer;
+}

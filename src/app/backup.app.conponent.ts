@@ -26,13 +26,13 @@ import { state, style, transition, animate, trigger } from '@angular/animations'
             ),
         
             transition('* => right',
-                animate('{{time}} cubic-bezier(0.25, 1, 0.5, 1)')
+                animate('{{time}}')
             ),
             transition('* => left',
-                animate('{{time}} cubic-bezier(0.25, 1, 0.5, 1)')
+                animate('{{time}}')
             ),
             transition('* => start',
-                animate('{{time}} cubic-bezier(0.25, 1, 0.5, 1)')
+                animate('{{time}}')
             )
         ]),
         //buttons fade
@@ -91,14 +91,14 @@ export class AppComponent {
 
     initVariables(){
 
-        this.elementLeftShift = 215
+        this.elementLeftShift = 225
         this.totalElementsCount = this.carouselItems.length
        
-        this.elementWidth = this.carouselItems[0].getBoundingClientRect().width
+        this.elementWidth = this.carouselItems[0].offsetWidth
         this.marginBetweenElements = this.elementLeftShift - this.elementWidth
         this.carouselWidth = ((this.elementWidth + this.marginBetweenElements) * this.totalElementsCount) - this.marginBetweenElements
         this.carousel.style.width = this.carouselWidth + 'px'
-        this.windowWidth = document.body.getBoundingClientRect().width
+        this.windowWidth = document.body.offsetWidth
         
         this.carouselStripExceededRight = this.carouselWidth - this.windowWidth
         this.carouselStripExceededLeft = 0
@@ -129,87 +129,149 @@ export class AppComponent {
 
     nextItems(){
         
-        let carouselXPosition:number
-        let carouselLeft:number = this.carousel.offsetLeft
-        let stripShift:number
-        let animationTime:number
+        let carouselXPosition
+        let animationTime
+        let done:boolean = false
+        let elementXPosition
+        let stripShift
 
         this.calculateExcess()
+        
+        // se l' eccesso a destra è più lungo della larghezza della finestra
+        if(this.carouselStripExceededRight > this.windowWidth){
 
-        //se l'eccesso a destra è minore della larghezza della finestra E se ci sono ancora elementi a destra da visualizzare
-        if(this.carouselStripExceededRight < this.windowWidth && this.carouselStripExceededRight > 0){
-
-            console.log('if')
-
-            carouselXPosition = carouselLeft - this.carouselStripExceededRight
-            stripShift = this.carouselStripExceededRight
-            animationTime = stripShift
-                        
-            this.carouselXPosition = carouselXPosition + 'px'
-
-        //se l'eccesso a destra è maggiore della lunghezza della finestra
-        }else if(this.carouselStripExceededRight > this.windowWidth){
-
-            let done:boolean = false
+            //this.calculateExcess()
 
             this.carouselItems.forEach( element => {
                 
-                let elementXPosition:number = element.getBoundingClientRect().left
-                let elementWidth:number = element.getBoundingClientRect().width
+                elementXPosition = element.getBoundingClientRect().left
                 
                 //se parte dell'elemento si trova sulla linea destra della finestra E l'eccesso a destra è maggiore della larghezza di un elemento
-                if(elementXPosition + elementWidth > this.windowWidth && this.carouselStripExceededRight > this.elementWidth){
-
+                if(elementXPosition + this.elementWidth > this.windowWidth && this.carouselStripExceededRight > this.elementWidth){
+                
                     if(!done){
-
-                        carouselXPosition = carouselLeft - elementXPosition
+                        carouselXPosition = this.carousel.offsetLeft - elementXPosition
                         this.carouselXPosition = carouselXPosition + 'px'
-                        stripShift = elementXPosition 
-                        animationTime = stripShift
+                        stripShift = animationTime = elementXPosition
                         done = true
-
                     }
                     
                 }
 
             })
 
-        }
+            this.carouselStripExceededRight -= stripShift
+            this.carouselStripExceededLeft += stripShift
 
+        //se l'eccesso a destra è minore della larghezza della finestra E se ci sono ancora items a destra da scrollare 
+        }else if( this.carouselStripExceededRight > 0 && this.carouselStripExceededRight < this.windowWidth){
+
+            let selectedElement:HTMLElement
+            let done:boolean
+
+            this.carouselItems.forEach( element =>{
+                if(!done && element.getBoundingClientRect().left + this.elementWidth > this.windowWidth){
+                    selectedElement = element
+                    done = true
+                }
+            })
+
+            //se ciò che rimane da scrollare è maggiore della larghezza della finestra
+            if( (this.carouselStripExceededRight + (this.windowWidth - selectedElement.getBoundingClientRect().left) ) > this.windowWidth){
+
+                elementXPosition = selectedElement.getBoundingClientRect().left
+                carouselXPosition = this.carousel.offsetLeft - elementXPosition
+                this.carouselXPosition = carouselXPosition + 'px'
+                //this.calculateExcess()
+                stripShift = animationTime = elementXPosition
+
+            }else{
+
+                carouselXPosition -= this.carouselStripExceededRight
+                stripShift = animationTime = this.carouselStripExceededRight
+                            
+                this.carouselXPosition = this.carousel.offsetLeft - this.carouselStripExceededRight + 'px'
+            
+            }
+
+            this.carouselStripExceededRight -= stripShift
+            this.carouselStripExceededLeft += stripShift
+
+        }
+        
         if(animationTime){
             this.disableButtons()
             this.animationTime = animationTime * this.animationTimeMultiplier + 'ms'
             this.carouselScrollState = 'right'
         }
 
-
     }
 
     prevItems(){
 
-        let animationTime:number
+        let carouselXPosition:number
+        let animationTime
+        let elementXPosition
+        let selectedElement:HTMLElement
+        let carouselShift
 
         this.calculateExcess()
 
-        // se l'eccesso a sinistra è minore della lunghezza della finestra E maggiore di 0
-        if(this.carouselStripExceededLeft < this.windowWidth && this.carouselStripExceededLeft > 0){
+        //se l'eccesso a sinistra è minore della larghezza della finestra e maggiore di 0
+        if( this.carouselStripExceededLeft < this.windowWidth && this.carouselStripExceededLeft > 0){
 
-            let carouselShift:number
+            console.log('if')
+            console.log('exceededLeft', this.carouselStripExceededLeft)
+            console.log('eindowWidth', this.windowWidth)
 
+            //this.calculateExcess()
+
+            this.carouselItems.forEach( element => {
+                    if(element.getBoundingClientRect().left < 0 ){
+                        selectedElement = element
+                    }
+            })
+
+            let selectedElementWidth:number = selectedElement.getBoundingClientRect().width 
+
+            console.log('selectedElement', selectedElement)
+
+            //se un elemento si trova a cavallo del bordo sinistro della finestra E se l'elemento si trova nascosto a sinistra della finestra
+            if(selectedElement.getBoundingClientRect().left + selectedElementWidth > 0 && selectedElement.offsetLeft > 0){
+
+                console.log('innerIf')
+
+                carouselXPosition = this.carousel.getBoundingClientRect().left + Math.abs(selectedElement.offsetLeft)
+                this.carouselXPosition = carouselXPosition + 'px'
+                carouselShift = Math.abs(selectedElement.offsetLeft)
+                animationTime = carouselShift
+
+            }else if(selectedElement.offsetLeft == 0){
+
+                console.log('innerElse')
+
+                this.carouselXPosition = 0 + 'px'
+                animationTime = Math.abs(selectedElement.getBoundingClientRect().left)
+
+            }
+/* 
+            stripExcedeedLeft = Math.abs(this.carousel.getBoundingClientRect().left)
+            carouselXPosition += stripExcedeedLeft
+            animationTime = stripExcedeedLeft
+                        
             this.carouselXPosition = 0 + 'px'
-            carouselShift = this.carouselStripExceededLeft
-            animationTime = carouselShift 
 
-        // se l'eccesso a sinistra è maggiore della lunghezza della finestra
+            this.carouselStripExceededRight = this.carouselWidth - this.windowWidth
+            this.carouselStripExceededLeft = 0
+ */
+        //se l'eccesso a sinistra è maggiore della larghezza della finestra
         }else if(this.carouselStripExceededLeft > this.windowWidth){
 
-            let selectedElement:HTMLElement
-            let carouselShift:number
-            let carouselXPosition:number = this.carousel.getBoundingClientRect().left
+            console.log('else')
 
             this.carouselItems.forEach( element => {
                 
-                let elementXPosition:number = element.getBoundingClientRect().left
+                elementXPosition = element.getBoundingClientRect().left
                 
                 if( elementXPosition < 0){
                     selectedElement = element
@@ -223,6 +285,11 @@ export class AppComponent {
             animationTime = carouselShift
             this.carouselXPosition = carouselXPosition + 'px'
 
+            //this.calculateExcess()
+
+            this.carouselStripExceededRight += carouselShift
+            this.carouselStripExceededLeft -= carouselShift
+
         }
 
         if(animationTime){
@@ -232,6 +299,13 @@ export class AppComponent {
             this.carouselScrollState = 'left'
         
         }
+
+    }
+
+    calculateExcess(){
+
+        this.carouselStripExceededRight = this.carouselWidth - Math.abs(this.carousel.getBoundingClientRect().left) - this.windowWidth
+        this.carouselStripExceededLeft = Math.abs(this.carousel.getBoundingClientRect().left)
 
     }
 
@@ -247,20 +321,17 @@ export class AppComponent {
 
     onResize(){
 
-        this.calculateExcess()
         
-        let newWindowWidth:number = document.body.getBoundingClientRect().width
         let carouselLeft:number = this.carousel.offsetLeft
-        let carouselXPosition = this.carousel.getBoundingClientRect().left
+        let newWindowWidth:number = document.body.offsetWidth
+        let carouselXPosition:number = carouselLeft + 
+        (newWindowWidth - (this.carouselWidth - this.carouselStripExceededRight - this.carouselStripExceededLeft))
 
         if(this.carouselStripExceededLeft > 0){
-
-            //se si ingrandisce la finestra
+            
             if( newWindowWidth > this.windowWidth){
-
-                if(this.carouselStripExceededRight < 0)
-                    this.carousel.style.left = carouselLeft + Math.abs(this.carouselStripExceededRight) + 'px'
-                
+                this.carousel.style.left = carouselXPosition + 'px'
+                this.carouselStripExceededLeft = this.carouselWidth - newWindowWidth - this.carouselStripExceededRight
             }
 
             this.animationTime = Math.abs(this.carouselStripExceededLeft * this.animationTimeMultiplier) + 'ms'
@@ -268,21 +339,14 @@ export class AppComponent {
             this.initObjectList()
             this.initVariables()
 
+            this.carouselScrollState = 'start'
+
         }else{
 
             this.initObjectList()
             this.initVariables()
         
         }
-
-    }
-
-    calculateExcess(){
-
-        let windowWidth:number = document.body.offsetWidth
-
-        this.carouselStripExceededRight = this.carouselWidth + this.carousel.getBoundingClientRect().left - windowWidth
-        this.carouselStripExceededLeft = Math.abs(this.carousel.getBoundingClientRect().left)
 
     }
 
