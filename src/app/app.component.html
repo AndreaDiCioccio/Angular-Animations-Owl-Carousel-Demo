@@ -1,6 +1,6 @@
 <h1>Angular Animations Owl Carousel Demo</h1>
 <div (window:resize)="onResize()"></div>
-<h2>ebay/amazon recently viewed objects style own carousel</h2>
+<h2>ebay/amazon recently viewed objects style owl carousel</h2>
 <div class="carousel" [@scroll]="{value: carouselScrollState, params: {leftPosition: carouselXPosition, time:animationTime}}"
 (@scroll.done)="pause()" 
 (mouseover)="showButtons()" (mouseout)="hideButtons()">
