@@ -1,5 +1,5 @@
 <h1>Angular Animations Owl Carousel Demo1</h1>
-<div (window:resize)="onResize($event)"></div>
+<div (window:resize)="onResize()"></div>
 <h2>ebay/amazon recently viewed objects style own carousel</h2>
 <div class="carousel" [@scroll]="{value: carouselScrollState, params: {leftPosition: carouselXPosition, time:animationTime}}"
 (@scroll.done)="pause()" 
@@ -17,15 +17,17 @@
 </div>
 <div class="carousel-support">
     <button class="button-slide" id="button-slide-previous" 
-    [@buttonsFade]="buttonsFadeState" 
-    (click)="prevItems()" (mouseover)="showButtons()" 
-    [disabled]="buttonDisabled">
-        <i class="fa fa-arrow-circle-o-left fa-5x" aria-hidden="true"></i>
+        [@buttonsFade]="buttonsFadeState" 
+        (click)="prevItems()" (mouseover)="showButtons()" 
+        [disabled]="buttonDisabled">
+        <fa-icon [icon]="leftArrowIcon" size="6x"></fa-icon> 
+        <!-- <i class="fa fa-arrow-circle-o-left fa-5x" aria-hidden="true"> </i> -->
     </button>
     <button class="button-slide" id="button-slide-next" 
-    [@buttonsFade]="buttonsFadeState" 
-    (click)="nextItems()" (mouseover)="showButtons()"
-    [disabled]="buttonDisabled">
-        <i class="fa fa-arrow-circle-o-right fa-5x" aria-hidden="true"> </i>
+        [@buttonsFade]="buttonsFadeState" 
+        (click)="nextItems()" (mouseover)="showButtons()"
+        [disabled]="buttonDisabled">
+        <fa-icon [icon]="rightArrowIcon" size="6x"></fa-icon>
+        <!-- <i class="fa fa-arrow-circle-o-right fa-5x" aria-hidden="true"> </i> -->
     </button>
 </div>

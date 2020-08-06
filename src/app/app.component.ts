@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { state, style, transition, animate, trigger } from '@angular/animations';
-
+import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons'
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -60,6 +60,9 @@ import { state, style, transition, animate, trigger } from '@angular/animations'
 })
 
 export class AppComponent {
+
+    leftArrowIcon = faArrowAltCircleLeft
+    rightArrowIcon = faArrowAltCircleRight
   
     windowWidth:number
     elementLeftShift:number
