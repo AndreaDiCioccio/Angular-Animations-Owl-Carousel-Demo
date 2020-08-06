@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Carousel-Demo1": {
+    "angular-animations-owl-carousel-demo": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Carousel-Demo1",
+            "outputPath": "dist/angular-animations-owl-carousel-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Carousel-Demo1:build"
+            "browserTarget": "angular-animations-owl-carousel-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Carousel-Demo1:build:production"
+              "browserTarget": "angular-animations-owl-carousel-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Carousel-Demo1:build"
+            "browserTarget": "angular-animations-owl-carousel-demo:build"
           }
         },
         "test": {
@@ -110,15 +110,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Carousel-Demo1:serve"
+            "devServerTarget": "angular-animations-owl-carousel-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Carousel-Demo1:serve:production"
+              "devServerTarget": "angular-animations-owl-carousel-demo:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "Carousel-Demo1"
+  "defaultProject": "angular-animations-owl-carousel-demo"
 }
