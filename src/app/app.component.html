@@ -17,14 +17,12 @@
 </div>
 <div class="carousel-support">
     <button class="button-slide" id="button-slide-previous" 
-        <!-- button fade animation -->
         [@buttonsFade]="buttonsFadeState" 
         (click)="prevItems()" (mouseover)="showButtons()" 
         [disabled]="buttonDisabled">
         <fa-icon [icon]="leftArrowIcon" size="4x"></fa-icon> 
     </button>
     <button class="button-slide" id="button-slide-next" 
-        <!-- button fade animation -->
         [@buttonsFade]="buttonsFadeState" 
         (click)="nextItems()" (mouseover)="showButtons()"
         [disabled]="buttonDisabled">
