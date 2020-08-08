@@ -17,17 +17,17 @@
 </div>
 <div class="carousel-support">
     <button class="button-slide" id="button-slide-previous" 
+        <!-- button fade animation -->
         [@buttonsFade]="buttonsFadeState" 
         (click)="prevItems()" (mouseover)="showButtons()" 
         [disabled]="buttonDisabled">
         <fa-icon [icon]="leftArrowIcon" size="4x"></fa-icon> 
-        <!-- <i class="fa fa-arrow-circle-o-left fa-5x" aria-hidden="true"> </i> -->
     </button>
     <button class="button-slide" id="button-slide-next" 
+        <!-- button fade animation -->
         [@buttonsFade]="buttonsFadeState" 
         (click)="nextItems()" (mouseover)="showButtons()"
         [disabled]="buttonDisabled">
         <fa-icon [icon]="rightArrowIcon" size="4x"></fa-icon>
-        <!-- <i class="fa fa-arrow-circle-o-right fa-5x" aria-hidden="true"> </i> -->
     </button>
 </div>

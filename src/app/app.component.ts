@@ -6,7 +6,7 @@ import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-s
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     animations:[
-        // carousel move
+        // carousel scroll
         trigger('scroll',[
             state('start', 
                 style({
@@ -82,7 +82,7 @@ export class AppComponent {
     carouselItems:NodeListOf<HTMLElement>
 
     buttonDisabled:boolean
-    buttonsHiddenTimeOut
+    buttonsHiddenTimeOut:number
 
     ngOnInit(){
 
@@ -130,6 +130,7 @@ export class AppComponent {
 
     }
 
+    //scroll right
     nextItems(){
         
         let carouselXPosition:number
@@ -141,8 +142,6 @@ export class AppComponent {
 
         //se l'eccesso a destra è minore della larghezza della finestra E se ci sono ancora elementi a destra da visualizzare
         if(this.carouselStripExceededRight < this.windowWidth && this.carouselStripExceededRight > 0){
-
-            console.log('if')
 
             carouselXPosition = carouselLeft - this.carouselStripExceededRight
             stripShift = this.carouselStripExceededRight
@@ -188,6 +187,7 @@ export class AppComponent {
 
     }
 
+    // scroll left
     prevItems(){
 
         let animationTime:number
@@ -248,6 +248,7 @@ export class AppComponent {
 
     }
 
+    //window resize
     onResize(){
 
         this.calculateExcess()
@@ -280,6 +281,7 @@ export class AppComponent {
 
     }
 
+    //calculate left and right excess of carousel div out of the window
     calculateExcess(){
 
         let windowWidth:number = document.body.offsetWidth
